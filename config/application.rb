@@ -20,11 +20,11 @@ module StripeShopify
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # config.middleware.use Rack::Cors do
-    #   allow do
-    #     origins 'http://www.hautetoppings.com'
-    #     resource '*', :headers => :any, :methods => [:get, :post, :options]
-    #   end
-    # end
+    config.middleware.use Rack::Cors do
+      allow do
+        origins 'http://www.hautetoppings.com'
+        resource '*', :headers => :any, :methods => [:get, :post, :options]
+      end
+    end
   end
 end

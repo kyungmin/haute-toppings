@@ -4,38 +4,37 @@ Stripe.api_key = ENV["STRIPE_API_KEY"]
 class SubscriptionController < ApplicationController
   def subscribe
     begin
-      customer = Stripe::Customer.create(
+      customer_name = "#{params[:first_name]} #{params[:last_name]}"
+      customer_email = params[:email]
+
+      stripe_customer = Stripe::Customer.create(
         :card => params[:stripeToken],
         :plan => params[:plan],
-        :email => params[:email]
+        :email => customer_email
       )
-      UserMailer.customer_confirmation_email(params[:email]).deliver
-      UserMailer.admin_notification_email(params[:email]).deliver
-      render :json => customer
+
+      subscribe_shopify_customer
+
+      UserMailer.customer_confirmation_email(stripe_customer.id, customer_email).deliver
+      UserMailer.admin_notification_email(stripe_customer.id, customer_name, customer_email).deliver
+      
+      render :json => stripe_customer
     rescue Stripe::CardError => e
       render :json => { "error" => e }
     end
-
-  #   save_stripe_customer_id(user, customer.id)
-
-  #   @subscription = Subscription.new(params[:subscription])
-  #   if @subscription.save_with_payment
-  #     render :json => @subscription
-  #   else
-  #     render :json => @subscription.errors.full_messages
-  #   end    
   end
 
-  def is_subscribed
-    save_stripe_customer_id(user, customer.id)
+  private
 
-    @subscription = Subscription.new(params[:subscription])
-    if @subscription.save_with_payment
-      render :json => @subscription
-    else
-      render :json => @subscription.errors.full_messages
-    end    
+  def subscribe_shopify_customer
+    ShopifyAPI::Base.site = "https://" + ENV['SHOPIFY_API_KEY'] + ":" + ENV['SHOPIFY_PASSWORD'] + "@haute-toppings.myshopify.com/admin"
+    user = ShopifyAPI::Customer.find(params[:id])
+
+    user.update_attributes({"tags" => "Wholesaler"})
+
+    if (params[:accepts_marketing] == "on")
+      user.update_attributes({"accepts_marketing" => true})
+    end
   end
-
 end
 

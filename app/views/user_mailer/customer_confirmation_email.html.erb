@@ -4,10 +4,23 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Thanks <%= @email %></h1>
     <p>
-      You have successfully subscribed to Haute Toppings Memebership.<br/>
+      You have successfully signed up for a Haute Toppings Membership!<br />
+      Thank you for joining our Membership!  We are excited to have you with us.
     </p>
-    <p>Thanks for joining and have a great day!</p>
+    <p>
+      Membership ID: <b><%= @customer_id %></b><br />
+      Your membership start date: <b>[date charged]</b><br />
+      You have been charged <b>[amount charged]</b> for the first [year or month] with us.
+    </p>
+    <p>
+      You will now be able to access new collections exclusive to members only as well as be able to purchase your other toppings at our exclusive member prices. Periodically, we will also email you special discount coupons and events via this email. Happy Toppings!
+    </p>
+    <p>
+      If you have problems accessing your membership features right away, please log out and log back in. If you continue to have issues or have any questions or concerns, please contact us at membershipg@hautetoppings.com.
+    </p>
+    <p>
+    ~ Haute Toppings Team
+    </p>
   </body>
 </html>

@@ -4,7 +4,17 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1><%= @email %> has just subscribed to Haute Toppings Membership</h1>
-    <p>Have a great day!</p>
+    <p>
+      <%= @customer_name %> (<%= @customer_email %>) has successfully signed up for Membership.
+    </p>
+    <p>
+      Membership Start Date: <b>[date of first charge]</b><br />
+      Subscription Type: <b>[yearly or monthly]</b>
+    </p>
+    <p>
+      Name: <b><%= @customer_name %></b><br />
+      Email: <b><%= @customer_email %></b><br />
+      Membership ID: <b><%= @customer_id %></b>
+    </p>
   </body>
 </html>

@@ -2,6 +2,10 @@ require 'stripe'
 Stripe.api_key = ENV["STRIPE_API_KEY"]
 
 class SubscriptionController < ApplicationController
+  def index
+    render :index
+  end
+  
   def subscribe
     begin
       customer_name = "#{params[:first_name]} #{params[:last_name]}"
@@ -17,7 +21,7 @@ class SubscriptionController < ApplicationController
 
       UserMailer.customer_confirmation_email(stripe_customer.id, customer_email).deliver
       UserMailer.admin_notification_email(stripe_customer.id, customer_name, customer_email).deliver
-      
+
       render :json => stripe_customer
     rescue Stripe::CardError => e
       render :json => { "error" => e }

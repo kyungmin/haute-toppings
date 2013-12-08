@@ -35,6 +35,7 @@ end
 
 gem 'shopify_api'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'rails_12factor'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'figaro'
 

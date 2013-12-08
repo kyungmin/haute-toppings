@@ -7,6 +7,5 @@ class ApplicationController < ActionController::Base
   def cors_set_access_control_headers
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Method'] = 'POST, GET, OPTIONS'
-    headers['Access-Control-Allow-Header'] = %w{Origin Accept Content-Type X-Requested-With X-CSRF-Token}.join(',')
   end
 end

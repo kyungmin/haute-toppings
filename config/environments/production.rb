@@ -69,7 +69,8 @@ StripeShopify::Application.configure do
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      :address              => 'smtp-mail.outlook.com',
+      :address              => 'smtp.gmail.com',
+#      :address              => 'smtp-mail.outlook.com',
       :port                 => 587,
       :user_name            => ENV["ADMIN_EMAIL"],
       :password             => ENV["ADMIN_PASSWORD"],

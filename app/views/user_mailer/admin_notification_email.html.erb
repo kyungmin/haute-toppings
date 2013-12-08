@@ -8,8 +8,8 @@
       <%= @customer_name %> (<%= @customer_email %>) has successfully signed up for Membership.
     </p>
     <p>
-      Membership Start Date: <b>[date of first charge]</b><br />
-      Subscription Type: <b>[yearly or monthly]</b>
+      Membership Start Date: <b><%= @start_date %></b><br />
+      Subscription Type: <b><%= @interval %></b>
     </p>
     <p>
       Name: <b><%= @customer_name %></b><br />

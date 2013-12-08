@@ -5,7 +5,7 @@ class SubscriptionController < ApplicationController
   def index
     render :index
   end
-  
+
   def subscribe
     begin
       customer_name = "#{params[:first_name]} #{params[:last_name]}"
@@ -19,8 +19,8 @@ class SubscriptionController < ApplicationController
 
       subscribe_shopify_customer
 
-      UserMailer.customer_confirmation_email(stripe_customer.id, customer_email).deliver
-      UserMailer.admin_notification_email(stripe_customer.id, customer_name, customer_email).deliver
+      UserMailer.customer_confirmation_email(stripe_customer, customer_email).deliver
+      UserMailer.admin_notification_email(stripe_customer, customer_name, customer_email).deliver
 
       render :json => stripe_customer
     rescue Stripe::CardError => e

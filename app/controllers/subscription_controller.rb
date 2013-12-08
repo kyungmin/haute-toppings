@@ -1,3 +1,4 @@
+require 'json'
 require 'stripe'
 Stripe.api_key = ENV["STRIPE_API_KEY"]
 
@@ -22,7 +23,13 @@ class SubscriptionController < ApplicationController
       UserMailer.customer_confirmation_email(stripe_customer, customer_email).deliver
       UserMailer.admin_notification_email(stripe_customer, customer_name, customer_email).deliver
 
-      render :json => stripe_customer
+      customer_detail = {
+        :id => customer.id,
+        :start_date => Time.at(customer.subscription.start).strftime("%d/%m/%Y"),
+        :amount => (customer.subscription.plan.amount / 100).to_f,
+        :interval => customer.subscription.plan.interval
+      }
+      render :json => customer_detail.to_json
     rescue Stripe::CardError => e
       render :json => { "error" => e }
     end

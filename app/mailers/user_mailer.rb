@@ -7,7 +7,7 @@ class UserMailer < ActionMailer::Base
     @customer_email = customer_email
     @start_date = Time.at(customer.subscription.start).strftime("%d/%m/%Y")
     @interval = customer.subscription.plan.interval
-    @amount = customer.subscription.plan.amount / 100
+    @amount = (customer.subscription.plan.amount / 100).to_f
     mail(to: @customer_email, subject: "Haute Toppings Membership Confirmation")
   end
 

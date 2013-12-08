@@ -1,4 +1,5 @@
 require File.expand_path('../boot', __FILE__)
+require "#{config.root}/lib/compressed_static_assets"
 
 require 'rails/all'
 

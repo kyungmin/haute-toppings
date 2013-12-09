@@ -15,6 +15,7 @@ class UserMailer < ActionMailer::Base
     @customer_id = customer[:id]
     @customer_name = customer[:name]
     @customer_email = customer[:email]
+    @start_date = customer[:start_date]
     @interval = customer[:interval]
     @admin_internal_email = ENV['ADMIN_INTERNAL_EMAIL']
 

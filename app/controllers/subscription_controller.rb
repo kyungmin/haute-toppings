@@ -17,17 +17,21 @@ class SubscriptionController < ApplicationController
         :plan => params[:plan],
         :email => customer_email
       )
-      subscribe_shopify_customer
 
-      UserMailer.customer_confirmation_email(stripe_customer, customer_email).deliver
-      UserMailer.admin_notification_email(stripe_customer, customer_name, customer_email).deliver
+      subscribe_shopify_customer
 
       customer_detail = {
         :id => stripe_customer.id,
+        :name => customer_name,
+        :email => customer_email,
         :start_date => Time.at(stripe_customer.subscription.start).strftime("%d/%m/%Y"),
         :amount => stripe_customer.subscription.plan.amount / 100.to_f,
         :interval => stripe_customer.subscription.plan.interval
       }
+
+      UserMailer.customer_confirmation_email(customer_detail).deliver
+      UserMailer.admin_notification_email(customer_detail).deliver
+
       render :json => customer_detail.to_json
     rescue Stripe::CardError => e
       render :json => { "error" => e }

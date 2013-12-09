@@ -11,7 +11,7 @@ class UserMailer < ActionMailer::Base
     mail(to: @customer_email, subject: "Haute Toppings Membership Confirmation")
   end
 
-  def admin_notification_email(customer, customer_name, customer_email)
+  def admin_notification_email(customer)
     @customer_id = customer[:id]
     @customer_name = customer[:name]
     @customer_email = customer[:email]

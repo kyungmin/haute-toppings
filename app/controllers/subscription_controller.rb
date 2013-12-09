@@ -11,14 +11,13 @@ class SubscriptionController < ApplicationController
     begin
       customer_name = "#{params[:first_name]} #{params[:last_name]}"
       customer_email = params[:email]
+      membership_type = (params[:membership_type] == "month" ? "Membership" : "Membership (Yearly)")
 
       stripe_customer = Stripe::Customer.create(
         :card => params[:stripeToken],
-        :plan => params[:plan],
+        :plan => membership_type,
         :email => customer_email
       )
-
-      subscribe_shopify_customer
 
       customer_detail = {
         :id => stripe_customer.id,
@@ -28,6 +27,8 @@ class SubscriptionController < ApplicationController
         :amount => stripe_customer.subscription.plan.amount / 100.to_f,
         :interval => stripe_customer.subscription.plan.interval
       }
+
+      subscribe_shopify_customer
 
       UserMailer.customer_confirmation_email(customer_detail).deliver
       UserMailer.admin_notification_email(customer_detail).deliver

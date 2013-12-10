@@ -24,7 +24,7 @@ class SubscriptionController < ApplicationController
         :name => customer_name,
         :email => customer_email,
         :start_date => Time.at(stripe_customer.subscription.start).strftime("%d/%m/%Y"),
-        :amount => stripe_customer.subscription.plan.amount / 100.to_f,
+        :amount => "%.2f" % (stripe_customer.subscription.plan.amount.to_f / 100.to_f),
         :interval => stripe_customer.subscription.plan.interval
       }
 

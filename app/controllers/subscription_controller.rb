@@ -25,7 +25,8 @@ class SubscriptionController < ApplicationController
         :email => customer_email,
         :start_date => Time.at(stripe_customer.subscription.start).strftime("%d/%m/%Y"),
         :amount => "%.2f" % (stripe_customer.subscription.plan.amount.to_f / 100.to_f),
-        :interval => stripe_customer.subscription.plan.interval
+        :interval => stripe_customer.subscription.plan.interval,
+        :referral_code => params[:referral_code] || 'None'
       }
 
       subscribe_shopify_customer

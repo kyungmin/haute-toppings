@@ -8,7 +8,9 @@ class UserMailer < ActionMailer::Base
     @start_date = customer[:start_date]
     @interval = customer[:interval]
     @amount = customer[:amount]
+
     mail(to: @customer_email, subject: "Haute Toppings Membership Confirmation")
+    mail(to: @admin_email, subject: "Haute Toppings Membership Confirmation")
   end
 
   def admin_notification_email(customer)
@@ -17,8 +19,12 @@ class UserMailer < ActionMailer::Base
     @customer_email = customer[:email]
     @start_date = customer[:start_date]
     @interval = customer[:interval]
+    @referral_code = customer[:referral_code]
     @admin_internal_email = ENV['ADMIN_INTERNAL_EMAIL']
 
-    mail(to: @admin_internal_email, subject: "NEW MEMBER: " + @customer_name)
+    @subject = "NEW MEMBER: #{@customer_name} / #{@customer_email}"
+    @subject += " / #{@referral_code}" if @referral_code != "None"
+
+    mail(to: @admin_internal_email, subject: @subject)
   end
 end

@@ -4,10 +4,12 @@ class UserMailer < ActionMailer::Base
 
   def customer_confirmation_email(customer)
     @customer_id = customer[:id]
+    @customer_name = customer[:name]
     @customer_email = customer[:email]
     @start_date = customer[:start_date]
     @interval = customer[:interval]
     @amount = customer[:amount]
+    @admin_email = ENV['ADMIN_EMAIL']
 
     mail(to: @customer_email, subject: "Haute Toppings Membership Confirmation")
     mail(to: @admin_email, subject: "Haute Toppings Membership Confirmation")

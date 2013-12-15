@@ -11,7 +11,7 @@ class UserMailer < ActionMailer::Base
     @amount = customer[:amount]
     @admin_email = ENV['ADMIN_EMAIL']
 
-    mail(to: "#{@customer_email}; #{@admin_email}", subject: "Haute Toppings Membership Confirmation")
+    mail(to: @customer_email, bcc: @admin_email, subject: "Haute Toppings Membership Confirmation")
   end
 
   def admin_notification_email(customer)

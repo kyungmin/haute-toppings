@@ -31,13 +31,27 @@ class SubscriptionController < ApplicationController
 
       subscribe_shopify_customer
 
-      UserMailer.customer_confirmation_email(customer_detail).deliver
-      UserMailer.admin_notification_email(customer_detail).deliver
+      UserMailer.subscription_confirmation_customer(customer_detail).deliver
+      UserMailer.subscription_confirmation_admin(customer_detail).deliver
 
       render :json => customer_detail.to_json
     rescue Stripe::CardError => e
       render :json => { "error" => e }
     end
+  end
+
+  def cancel
+    customer_detail = {
+      :name => params[:name],
+      :email => params[:email],
+      :reason => params[:reason],
+      :suggestion => params[:suggestion]
+    }
+
+    UserMailer.cancellation_confirmation_customer(customer_detail).deliver
+    UserMailer.cancellation_confirmation_admin(customer_detail).deliver
+
+    render :json => customer_detail
   end
 
   private

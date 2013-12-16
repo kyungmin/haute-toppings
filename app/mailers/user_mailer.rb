@@ -2,7 +2,7 @@ class UserMailer < ActionMailer::Base
   @admin_email = ENV['ADMIN_EMAIL']
   default from: @admin_email
 
-  def customer_confirmation_email(customer)
+  def subscription_confirmation_customer(customer)
     @customer_id = customer[:id]
     @customer_name = customer[:name]
     @customer_email = customer[:email]
@@ -14,7 +14,7 @@ class UserMailer < ActionMailer::Base
     mail(to: @customer_email, bcc: @admin_email, subject: "Haute Toppings Membership Confirmation")
   end
 
-  def admin_notification_email(customer)
+  def subscription_confirmation_admin(customer)
     @customer_id = customer[:id]
     @customer_name = customer[:name]
     @customer_email = customer[:email]
@@ -27,5 +27,24 @@ class UserMailer < ActionMailer::Base
     @subject += " / #{@referral_code}" if @referral_code != "None"
 
     mail(to: @admin_internal_email, subject: @subject)
+  end
+
+  def cancellation_confirmation_customer(customer)
+    @customer_name = customer[:name]
+    @admin_internal_email = ENV['ADMIN_INTERNAL_EMAIL']
+
+    mail(to: @customer_email, bcc: @admin_email, subject: "Cancellation Request Confirmation")
+  end
+
+  def cancellation_confirmation_admin(customer)
+    @customer_name = customer[:name]
+    @customer_email = customer[:email]
+    @last_four = customer[:last_four]
+    @date_requested = Time.current.to_date
+    @reason = customer[:reason].join(", ").chop
+    @suggestion = customer[:suggestion]
+    @admin_internal_email = ENV['ADMIN_INTERNAL_EMAIL']
+
+    mail(to: @admin_internal_email, subject: "CANCELLATION REQUEST: #{@date_requested} / #{@customer_email}")
   end
 end

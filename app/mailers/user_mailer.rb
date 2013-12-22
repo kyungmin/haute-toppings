@@ -31,7 +31,9 @@ class UserMailer < ActionMailer::Base
 
   def cancellation_confirmation_customer(customer)
     @customer_name = customer[:name]
+    @customer_email = customer[:email]
     @admin_internal_email = ENV['ADMIN_INTERNAL_EMAIL']
+    @admin_email = ENV['ADMIN_EMAIL']
 
     mail(to: @customer_email, bcc: @admin_email, subject: "Cancellation Request Confirmation")
   end
